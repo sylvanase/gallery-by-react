@@ -10,18 +10,39 @@ let imageData = require('json!../data/imageData.json');
 imageData = (function getImageUrl(imageDataArr) {
 	for (var i = 0, j = imageDataArr.length; i < j; i++) {
 		var singleImageData = imageDataArr[i];
-		singleImageData.imageUrl = require('../images/' + singleImageData.fileName);
+		singleImageData.imageURL = require('../images/' + singleImageData.fileName);
 		imageDataArr[i] = singleImageData;
 	}
 	return imageDataArr;
 })(imageData);
 
-var GalleryByReactApp = React.createClass({
+var ImgFigure = React.createClass({
 	render: function() {
 		return (
+			<figure className="img-figure">
+				<img src={this.props.data.imageURL} alt={this.props.data.title}/>
+				<figcaption><h2 className="img-title">{this.props.data.title}</h2></figcaption>
+			</figure>
+		);
+	}
+});
+
+var GalleryByReactApp = React.createClass({
+	render: function() {
+		var controllerUnits = [],
+			imgFigures = [];
+
+		imageData.forEach(function(value) {
+			imgFigures.push(<ImgFigure data={value} />);
+		});
+		return (
 			<section className="stage">
-				<section className="img-sec"></section>
-				<nav className="controller-nav"></nav>
+				<section className="img-sec">
+					{imgFigures}
+				</section>
+				<nav className="controller-nav">
+					{controllerUnits}
+				</nav>
 			</section>
 		);
 	}
