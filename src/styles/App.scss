@@ -12,7 +12,7 @@ html,body{
 .stage{
   position: relative;
   width: 100%;
-  height: 680px;
+  height: 100%;
 }
 /* stage -- end */
 
@@ -23,8 +23,9 @@ html,body{
   height: 100%;
   overflow: hidden;
   background-color: #ddd;
+  perspective: 1500px;
   @at-root{
-    .img-figure{
+    .img-figure {
       position: absolute;
       width: 220px;
       height: 255px;
@@ -32,9 +33,32 @@ html,body{
       padding: 20px;
       background-color: #fff;
       box-sizing: border-box;
+      cursor: pointer;
+      transform-origin: 0 50% 0;
+      transform-style: preserve-3d;
+      transition: transform .6s ease-in-out, left .6s ease-in-out, top .6s ease-in-out;
+      &.is-inverse {
+        transform:translate(220px) rotateY(180deg);
+      }
       img{
         width: 180px;
       }
+    }
+
+    .img-back {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 220px;
+      height: 255px;
+      padding: 30px;
+      box-sizing: border-box;
+      text-align: center;
+      color: #666;
+      transform: rotateY(180deg) translateZ(1px);
+      backface-visibility:hidden;
+      
+      background: #fff;
     }
     figcaption{
       text-align: center;
