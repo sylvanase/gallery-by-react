@@ -45,9 +45,9 @@ var ImgFigure = React.createClass({
 		}
 		//如果图片的旋转角度有值且不为零，添加角度属性
 		if (this.props.arrange.rotate) {
-			//为了兼容各浏览器，添加前缀
-			(['-moz-', '-ms-', '-webkit-', '']).forEach(function(value) {
-				styleObj[value + 'transform'] = 'rotate(' + this.props.arrange.rotate + 'deg)';
+			//为了兼容各浏览器，添加前缀,使用['-moz-', '-ms-', '-webkit-', '']时控制台会报警告，Unsupported style property -moz-transform等
+			(['MozTransform', 'msTransform', 'WebkitTransform', 'transform']).forEach(function(value) {
+				styleObj[value] = 'rotate(' + this.props.arrange.rotate + 'deg)';
 			}.bind(this));
 		}
 		//图片如果居中，设置其index值保证图片不被覆盖
@@ -72,6 +72,36 @@ var ImgFigure = React.createClass({
 	}
 });
 
+//控制组件
+var ControllerUnit = React.createClass({
+	handleClick: function(e) {
+		//点击的为当前选中态的按钮，翻转图片，否则进行图片居中操作
+		if (this.props.arrange.isCenter) {
+			this.props.inverse();
+		} else {
+			this.props.center();
+		}
+		e.stopPropagation();
+		e.preventDefault();
+	},
+	render: function() {
+		var controllerUnitClassName = 'controller-unit';
+		//对应的是居中的图片，显示按钮居中态
+		if (this.props.arrange.isCenter) {
+			controllerUnitClassName += ' is-center';
+			//居中的同时为翻转状态
+			if (this.props.arrange.isInverse) {
+				controllerUnitClassName += ' is-inverse';
+			}
+		}
+		return (
+			<span className={controllerUnitClassName} onClick={this.handleClick}></span>
+		);
+	}
+});
+
+
+//舞台组件
 var GalleryByReactApp = React.createClass({
 	getInitialState: function() {
 		return {
@@ -187,6 +217,8 @@ var GalleryByReactApp = React.createClass({
 			};
 		}
 
+		// debugger;
+
 		if (imgsArrangeTopArr && imgsArrangeTopArr[0]) {
 			imgsArrangeArr.splice(topImgeSpliceIndex, 0, imgsArrangeTopArr[0]);
 		}
@@ -250,6 +282,7 @@ var GalleryByReactApp = React.createClass({
 				}
 			}
 			imgFigures.push(<ImgFigure data={value} key={index} ref={'imgFigure'+index} arrange={this.state.imgsArrangeArr[index]} inverse={this.inverse(index)} center={this.center(index)}/>);
+			controllerUnits.push(<ControllerUnit key={index} arrange={this.state.imgsArrangeArr[index]} inverse={this.inverse(index)} center={this.center(index)}/>);
 		}.bind(this)); //坑2，组件执行时报Each child in an array or iterator should have a unique “key” prop 错误，不影响效果，但为了避免，加上了key={index}，得以解决
 		return (
 			<section className="stage" ref="stage">
