@@ -39,3 +39,4 @@ config.module.loaders.push({
 });
 
 module.exports = config;
+module.exports.output.publicPath = 'assets/';
