@@ -2,7 +2,7 @@
 
 `react` `webpack` `yeoman` `npm`
 ---
-##开发此项目时所做的准备
+## 开发此项目时所做的准备
 配置本地环境，安装yeoman：
 
     npm install -g yo
@@ -19,7 +19,7 @@
     git clone 项目地址
 拉取完成后进入项目目录，执行：`yo react-webpack 项目名` 来生成项目，为了方便调试，请安装chrome的工具：“react developer tool”。
 
-##运行代码
+## 运行代码
 
     npm init
     npm run start
@@ -27,7 +27,7 @@
 项目在线浏览地址：https://sylvanase.github.io/gallery-by-react/
 其他的npm命令请查看package.json
 
-##踩过的坑
+## 踩过的坑
 
  - js中需要引入react-dom，否则在取子元素时，单纯使用this.refs.会找不到dom节点，父元素则可以正常获取，尚未搞清是为啥…… 建议使用ReactDOM.findDOMNode()来获取dom节点。
  - 执行时页面可正常显示，但是控制台警告‘Each child in an array or iterator should have a unique “key” prop’，在组件中加入key={index}即可，而且可以提高效率。
