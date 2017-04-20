@@ -21,7 +21,7 @@
 
 ## 运行代码
 
-    npm init
+    npm install
     npm run start
 浏览器打开：localhost:8000
 项目在线浏览地址：https://sylvanase.github.io/gallery-by-react/
